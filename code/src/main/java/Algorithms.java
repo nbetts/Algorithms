@@ -1,10 +1,25 @@
+import java.lang.IllegalAccessException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class Algorithms {
-  private static int[] shellSortGaps = new int[31];
+  private static ArrayList<Method> algorithmMethods;
+  private static int[] shellSortGaps;
 
   private Algorithms() {}
 
   static {
+    algorithmMethods = new ArrayList<>();
+
+    for (Method method : Algorithms.class.getMethods()) {
+      if (method.getName().endsWith("Sort")) {
+        algorithmMethods.add(method);
+      }
+    }
+
+    shellSortGaps = new int[31];
+
     for (int i = 0; i < shellSortGaps.length; i++) {
       shellSortGaps[i] = (int) Math.pow(2, shellSortGaps.length - i) - 1;
     }
@@ -87,14 +102,11 @@ public class Algorithms {
   }
 
   public static void testAlgorithm(String algorithm, boolean isReverse) {
-    switch (algorithm) {
-      case "bubbleSort": break;
-      case "insertionSort": break;
-      case "selectionSort": break;
-      case "shellSort": break;
-      default:
-        System.out.println("Unsupported algorithm: " + algorithm);
-        return;
+    Method algorithmMethod = Algorithms.getAlgorithmMethod(algorithm);
+
+    if (algorithmMethod == null) {
+      System.out.format("Unsupported algorithm: \"%s\"\n", algorithm);
+      return;
     }
 
     Integer[] array;
@@ -106,24 +118,35 @@ public class Algorithms {
       array = ArrayUtilities.generateRandomIntegerArray(size, 0, size);
     }
 
-    System.out.println("Testing algorithm \"" + algorithm + "\" with " +
-                       (isReverse ? "reversed" : "randomized") + " array of size " + size);
+    System.out.format("Testing algorithm \"%s\" with %s array of size %d\n",
+                      algorithm, isReverse ? "reversed" : "randomized", size);
 
     System.out.print("Before: ");
     ArrayUtilities.print(array);
 
-    switch (algorithm) {
-      case "bubbleSort": Algorithms.bubbleSort(array);
-      case "insertionSort": Algorithms.insertionSort(array);
-      case "selectionSort": Algorithms.selectionSort(array);
-      case "shellSort": Algorithms.shellSort(array);
-    }
+    runAlgorithmMethod(algorithmMethod, array);
 
     System.out.print("After:  ");
     ArrayUtilities.print(array);
   }
 
-  public static void main(String[] args) {
-    Algorithms.testAlgorithm("bubbleSort", false);
+  public static Method getAlgorithmMethod(String algorithm) {
+    for (Method method : algorithmMethods) {
+      if (method.getName().equals(algorithm)) {
+        return method;
+      }
+    }
+
+    return null;
+  }
+
+  public static void runAlgorithmMethod(Method method, Comparable[] array) {
+    try {
+      method.invoke(null, new Object[]{array});
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
   }
 }
