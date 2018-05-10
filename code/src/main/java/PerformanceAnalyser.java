@@ -9,14 +9,14 @@ public class PerformanceAnalyser {
     thread = ManagementFactory.getThreadMXBean();
   }
 
-  public long runAnalysis(String algorithm, int arraySize, int testRepeatCount) {
+  public long runAnalysis(String algorithm, int testRepeatCount,  int arraySize) {
     Method algorithmMethod = Algorithms.getAlgorithmMethod(algorithm);
 
     if (algorithmMethod == null) {
       return -1;
-    } else if (arraySize < 2) {
-      return -1;
     } else if (testRepeatCount < 1) {
+      return -1;
+    } else if (arraySize < 2) {
       return -1;
     }
 
@@ -34,8 +34,18 @@ public class PerformanceAnalyser {
     return averageExecutionTime;
   }
 
+  public long[] runAnalysis(String[] algorithms, int testRepeatCount,  int arraySize) {
+    long[] averageExecutionTimes = new long[algorithms.length];
+
+    for (int i = 0; i < algorithms.length; i++) {
+      averageExecutionTimes[i] = runAnalysis(algorithms[i], testRepeatCount, arraySize);
+    }
+
+    return averageExecutionTimes;
+  }
+
   public void warmUp() {
-    runAnalysis("bubbleSort", 20000, 2);
+    runAnalysis("bubbleSort", 2, 20000);
   }
 
   public static String formatNanoTime(long nanoTime) {

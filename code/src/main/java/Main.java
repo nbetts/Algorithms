@@ -7,14 +7,17 @@ public class Main {
 
     System.out.println("Warming up performance analyser...");
     analyser.warmUp();
-    System.out.println("Warmed up");
 
-    System.out.format("Analysing performance of algorithm \"bubbleSort\"," +
-                      " running 20 tests using an array size of 1000 ...\n");
+    System.out.format("Analysing performance of all algorithms, running 10 tests " +
+                      "each with a randomised integer array of size 10000 ...\n");
 
-    long averageExecutionTime = analyser.runAnalysis("bubbleSort", 10000, 20);
+    String[] algorithms = {"bubbleSort", "insertionSort", "selectionSort", "shellSort"};
+    long[] averageExecutionTimes = analyser.runAnalysis(algorithms, 10, 10000);
 
-    System.out.format("Analysis complete, average execution time: %s\n",
-                      PerformanceAnalyser.formatNanoTime(averageExecutionTime));
+    System.out.println("Analysis complete, average execution times:");
+
+    for (int i = 0; i < algorithms.length; i++) {
+      System.out.format("%s\t%s\n", algorithms[i], PerformanceAnalyser.formatNanoTime(averageExecutionTimes[i]));
+    }
   }
 }
