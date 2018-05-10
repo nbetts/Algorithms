@@ -25,7 +25,7 @@ public class Algorithms {
     }
   }
 
-  private static <T> void swap(T[]array, int first, int second) {
+  private static <T> void swap(T[] array, int first, int second) {
     T element = array[first];
     array[first] = array[second];
     array[second] = element;
@@ -102,7 +102,7 @@ public class Algorithms {
   }
 
   public static void testAlgorithm(String algorithm, boolean isReverse) {
-    Method algorithmMethod = Algorithms.getAlgorithmMethod(algorithm);
+    Method algorithmMethod = getAlgorithmMethod(algorithm);
 
     if (algorithmMethod == null) {
       System.out.format("Unsupported algorithm: \"%s\"\n", algorithm);
