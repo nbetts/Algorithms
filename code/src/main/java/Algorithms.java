@@ -86,15 +86,44 @@ public class Algorithms {
     }
   }
 
-  public static void main(String[] args) {
-    Integer[] array = ArrayUtilities.generateRandomIntegerArray(20, 1, 30);
-    // Integer[] array = ArrayUtilities.generateReverseIntegerArray(20);
+  public static void testAlgorithm(String algorithm, boolean isReverse) {
+    switch (algorithm) {
+      case "bubbleSort": break;
+      case "insertionSort": break;
+      case "selectionSort": break;
+      case "shellSort": break;
+      default:
+        System.out.println("Unsupported algorithm: " + algorithm);
+        return;
+    }
 
+    Integer[] array;
+    int size = 20;
+
+    if (isReverse) {
+      array = ArrayUtilities.generateReverseIntegerArray(size);
+    } else {
+      array = ArrayUtilities.generateRandomIntegerArray(size, 0, size);
+    }
+
+    System.out.println("Testing algorithm \"" + algorithm + "\" with " +
+                       (isReverse ? "reversed" : "randomized") + " array of size " + size);
+
+    System.out.print("Before: ");
     ArrayUtilities.print(array);
-    // Algorithms.bubbleSort(array);
-    // Algorithms.insertionSort(array);
-    // Algorithms.selectionSort(array);
-    Algorithms.shellSort(array);
+
+    switch (algorithm) {
+      case "bubbleSort": Algorithms.bubbleSort(array);
+      case "insertionSort": Algorithms.insertionSort(array);
+      case "selectionSort": Algorithms.selectionSort(array);
+      case "shellSort": Algorithms.shellSort(array);
+    }
+
+    System.out.print("After:  ");
     ArrayUtilities.print(array);
+  }
+
+  public static void main(String[] args) {
+    Algorithms.testAlgorithm("bubbleSort", false);
   }
 }
