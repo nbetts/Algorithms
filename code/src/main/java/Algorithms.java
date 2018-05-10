@@ -1,6 +1,14 @@
 
 public class Algorithms {
+  private static int[] shellSortGaps = new int[31];
+
   private Algorithms() {}
+
+  static {
+    for (int i = 0; i < shellSortGaps.length; i++) {
+      shellSortGaps[i] = (int) Math.pow(2, shellSortGaps.length - i) - 1;
+    }
+  }
 
   private static <T> void swap(T[]array, int first, int second) {
     T element = array[first];
@@ -9,6 +17,10 @@ public class Algorithms {
   }
 
   public static <T extends Comparable<? super T>> void bubbleSort(T[] array) {
+    if (array.length <= 1) {
+      return;
+    }
+
     for (int i = 0; i < array.length - 1; i++) {
       for (int j = 0; j < array.length - 1; j++) {
         if (array[j].compareTo(array[j+1]) > 0) {
@@ -19,6 +31,10 @@ public class Algorithms {
   }
 
   public static <T extends Comparable<? super T>> void insertionSort(T[] array) {
+    if (array.length <= 1) {
+      return;
+    }
+
     for (int i = 1; i < array.length; i++) {
       for (int j = i; j > 0; j--) {
         if (array[j].compareTo(array[j-1]) < 0) {
@@ -29,6 +45,10 @@ public class Algorithms {
   }
 
   public static <T extends Comparable<? super T>> void selectionSort(T[] array) {
+    if (array.length <= 1) {
+      return;
+    }
+
     for (int i = 0; i < array.length - 1; i++) {
       int lowest = i;
 
@@ -44,14 +64,37 @@ public class Algorithms {
     }
   }
 
+  public static <T extends Comparable<? super T>> void shellSort(T[] array) {
+    if (array.length <= 1) {
+      return;
+    }
+
+    for (int i = 0; i < shellSortGaps.length; i++) {
+      int gap = shellSortGaps[i];
+
+      if (gap < array.length) {
+        for (int k, j = gap; j < array.length; j++) {
+          T element = array[j];
+
+          for (k = j; k >= gap && array[k-gap].compareTo(element) > 0; k -= gap) {
+            array[k] = array[k-gap];
+          }
+
+          array[k] = element;
+        }
+      }
+    }
+  }
+
   public static void main(String[] args) {
-    // Integer[] array = ArrayUtilities.generateRandomIntegerArray(20, 1, 30);
-    Integer[] array = ArrayUtilities.generateReverseIntegerArray(20);
+    Integer[] array = ArrayUtilities.generateRandomIntegerArray(20, 1, 30);
+    // Integer[] array = ArrayUtilities.generateReverseIntegerArray(20);
 
     ArrayUtilities.print(array);
     // Algorithms.bubbleSort(array);
     // Algorithms.insertionSort(array);
-    Algorithms.selectionSort(array);
+    // Algorithms.selectionSort(array);
+    Algorithms.shellSort(array);
     ArrayUtilities.print(array);
   }
 }
