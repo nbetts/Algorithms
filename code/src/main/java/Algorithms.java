@@ -23,6 +23,9 @@ public class Algorithms {
     for (int i = 0; i < shellSortGaps.length; i++) {
       shellSortGaps[i] = (int) Math.pow(2, shellSortGaps.length - i) - 1;
     }
+
+    // Need to add 1 to the first value due to reaching max value of integer.
+    shellSortGaps[0] += 1;
   }
 
   private static <T> void swap(T[] array, int first, int second) {
