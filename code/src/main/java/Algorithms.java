@@ -121,13 +121,11 @@ public class Algorithms {
     System.out.format("Testing algorithm \"%s\" with %s array of size %d\n",
                       algorithm, isReverse ? "reversed" : "randomized", size);
 
-    System.out.print("Before: ");
-    ArrayUtilities.print(array);
+    System.out.println("Before: " + ArrayUtilities.toString(array));
 
     runAlgorithmMethod(algorithmMethod, array);
 
-    System.out.print("After:  ");
-    ArrayUtilities.print(array);
+    System.out.println("After:  " + ArrayUtilities.toString(array));
   }
 
   public static Method getAlgorithmMethod(String algorithm) {

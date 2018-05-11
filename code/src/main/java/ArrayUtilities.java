@@ -35,7 +35,7 @@ public class ArrayUtilities {
     }
   }
 
-  public static <T> void print(T[] array) {
+  public static <T> String toString(T[] array) {
     String content = "";
 
     for (int i = 0; i < array.length; i++) {
@@ -46,6 +46,6 @@ public class ArrayUtilities {
       }
     }
 
-    System.out.println("[" + content + "]");
+    return "[" + content + "]";
   }
 }
