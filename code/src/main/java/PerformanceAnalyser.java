@@ -11,7 +11,7 @@ public class PerformanceAnalyser {
     thread = ManagementFactory.getThreadMXBean();
   }
 
-  public PerformanceResult runAnalysis(String algorithm, int testRepeatCount,  int arraySize) {
+  public PerformanceResult runAnalysis(String algorithm, int testRepeatCount, int arraySize) {
     Method algorithmMethod = algorithms.getAlgorithmMethod(algorithm);
 
     if (algorithmMethod == null) {
