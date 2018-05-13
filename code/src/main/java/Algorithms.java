@@ -57,11 +57,19 @@ public class Algorithms {
       return;
     }
 
-    for (int i = 0; i < array.length - 1; i++) {
+    resetCounters();
+    boolean swapped = true;
+
+    while (swapped) {
+      swapped = false;
+
       for (int j = 0; j < array.length - 1; j++) {
         if (array[j].compareTo(array[j+1]) > 0) {
           swap(array, j, j+1);
+          swapped = true;
         }
+
+        iterationCount++;
       }
     }
   }
