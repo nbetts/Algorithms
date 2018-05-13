@@ -22,10 +22,8 @@ public class PerformanceAnalyser {
       return null;
     }
 
+    PerformanceResult performanceResult = new PerformanceResult();
     long startTime, endTime;
-    long averageExecutionTime = 0;
-    long averageIterationCount = 0;
-    long averageSwapCount = 0;
 
     for (int i = 1; i <= testRepeatCount; i++) {
       Integer[] array = ArrayUtilities.generateRandomIntegerArray(arraySize, 0, arraySize);
@@ -34,23 +32,11 @@ public class PerformanceAnalyser {
       algorithms.runAlgorithmMethod(algorithmMethod, array);
       endTime = thread.getCurrentThreadCpuTime() - startTime;
 
-      averageExecutionTime += (endTime - averageExecutionTime) / (long) i;
-      averageIterationCount += (algorithms.getIterationCount() - averageIterationCount) / (long) i;
-      averageSwapCount += (algorithms.getSwapCount() - averageSwapCount) / (long) i;
+      performanceResult.addTestResult(endTime, algorithms.getIterationCount(), algorithms.getSwapCount());
     }
 
-    return new PerformanceResult(averageExecutionTime, averageIterationCount, averageSwapCount);
+    return performanceResult;
   }
-
-  // public long[] runAnalysis(String[] algorithms, int testRepeatCount,  int arraySize) {
-  //   long[] averageExecutionTimes = new long[algorithms.length];
-
-  //   for (int i = 0; i < algorithms.length; i++) {
-  //     averageExecutionTimes[i] = runAnalysis(algorithms[i], testRepeatCount, arraySize);
-  //   }
-
-  //   return averageExecutionTimes;
-  // }
 
   public void warmUp() {
     runAnalysis("bubbleSort", 2, 20000);

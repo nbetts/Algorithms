@@ -53,12 +53,13 @@ public class Main {
 
     System.out.println("Running analysis...");
 
-    PerformanceResult result = analyser.runAnalysis(algorithm, 10, arraySize);
+    PerformanceResult performanceResult = analyser.runAnalysis(algorithm, 10, arraySize);
 
     System.out.println("Analysis complete");
-    System.out.println("Average execution time: " + PerformanceAnalyser.formatNanoTime(result.averageExecutionTime, 5));
-    System.out.println("Average iteration count: " + result.averageIterationCount);
-    System.out.println("Average swap count: " + result.averageSwapCount);
+    System.out.println("Average execution time: " + PerformanceAnalyser.formatNanoTime(
+                                                    performanceResult.getAverageExecutionTime(), 5));
+    System.out.println("Average iteration count: " + performanceResult.getAverageIterationCount());
+    System.out.println("Average swap count: " + performanceResult.getAverageSwapCount());
   }
 
   public static void main(String[] args) {
