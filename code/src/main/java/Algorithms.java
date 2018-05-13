@@ -123,6 +123,7 @@ public class Algorithms {
       if (leftIndex <= middleIndex && rightIndex <= highIndex) {
         if (array[leftIndex].compareTo(array[rightIndex]) > 0) {
           sortedArray[i] = array[rightIndex++];
+          swapCount++;
         } else {
           sortedArray[i] = array[leftIndex++];
         }
@@ -130,6 +131,7 @@ public class Algorithms {
         sortedArray[i] = array[leftIndex++];
       } else if (leftIndex > middleIndex && rightIndex <= highIndex) {
         sortedArray[i] = array[rightIndex++];
+        swapCount++;
       }
 
       iterationCount++;
