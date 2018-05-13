@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class Algorithms {
   private final ArrayList<Method> algorithmMethods;
   private final int[] shellSortGaps;
-  private int iterationCount;
-  private int swapCount;
+  private long iterationCount;
+  private long swapCount;
 
   public Algorithms() {
     resetCounters();
@@ -40,11 +40,11 @@ public class Algorithms {
     swapCount = 0;
   }
 
-  public int getIterationCount() {
+  public long getIterationCount() {
     return iterationCount;
   }
 
-  public int getSwapCount() {
+  public long getSwapCount() {
     return swapCount;
   }
 

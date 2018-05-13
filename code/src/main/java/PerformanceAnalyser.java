@@ -11,18 +11,21 @@ public class PerformanceAnalyser {
     thread = ManagementFactory.getThreadMXBean();
   }
 
-  public long runAnalysis(String algorithm, int testRepeatCount,  int arraySize) {
+  public PerformanceResult runAnalysis(String algorithm, int testRepeatCount,  int arraySize) {
     Method algorithmMethod = algorithms.getAlgorithmMethod(algorithm);
 
     if (algorithmMethod == null) {
-      return -1;
+      return null;
     } else if (testRepeatCount < 1) {
-      return -1;
+      return null;
     } else if (arraySize < 2) {
-      return -1;
+      return null;
     }
 
-    long startTime, endTime, averageExecutionTime = 0;
+    long startTime, endTime;
+    long averageExecutionTime = 0;
+    long averageIterationCount = 0;
+    long averageSwapCount = 0;
 
     for (int i = 1; i <= testRepeatCount; i++) {
       Integer[] array = ArrayUtilities.generateRandomIntegerArray(arraySize, 0, arraySize);
@@ -30,21 +33,24 @@ public class PerformanceAnalyser {
       startTime = thread.getCurrentThreadCpuTime();
       algorithms.runAlgorithmMethod(algorithmMethod, array);
       endTime = thread.getCurrentThreadCpuTime() - startTime;
+
       averageExecutionTime += (endTime - averageExecutionTime) / (long) i;
+      averageIterationCount += (algorithms.getIterationCount() - averageIterationCount) / (long) i;
+      averageSwapCount += (algorithms.getSwapCount() - averageSwapCount) / (long) i;
     }
 
-    return averageExecutionTime;
+    return new PerformanceResult(averageExecutionTime, averageIterationCount, averageSwapCount);
   }
 
-  public long[] runAnalysis(String[] algorithms, int testRepeatCount,  int arraySize) {
-    long[] averageExecutionTimes = new long[algorithms.length];
+  // public long[] runAnalysis(String[] algorithms, int testRepeatCount,  int arraySize) {
+  //   long[] averageExecutionTimes = new long[algorithms.length];
 
-    for (int i = 0; i < algorithms.length; i++) {
-      averageExecutionTimes[i] = runAnalysis(algorithms[i], testRepeatCount, arraySize);
-    }
+  //   for (int i = 0; i < algorithms.length; i++) {
+  //     averageExecutionTimes[i] = runAnalysis(algorithms[i], testRepeatCount, arraySize);
+  //   }
 
-    return averageExecutionTimes;
-  }
+  //   return averageExecutionTimes;
+  // }
 
   public void warmUp() {
     runAnalysis("bubbleSort", 2, 20000);
