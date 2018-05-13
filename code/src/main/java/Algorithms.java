@@ -5,11 +5,15 @@ import java.util.ArrayList;
 
 public class Algorithms {
   private static ArrayList<Method> algorithmMethods;
+  private static int iterationCount;
+  private static int swapCount;
   private static int[] shellSortGaps;
 
   private Algorithms() {}
 
   static {
+    resetCounters();
+
     algorithmMethods = new ArrayList<>();
 
     for (Method method : Algorithms.class.getMethods()) {
@@ -28,10 +32,24 @@ public class Algorithms {
     shellSortGaps[0] += 1;
   }
 
-  private static <T> void swap(T[] array, int first, int second) {
-    T element = array[first];
-    array[first] = array[second];
-    array[second] = element;
+  private static <T> void swap(T[] array, int firstIndex, int secondIndex) {
+    T element = array[firstIndex];
+    array[firstIndex] = array[secondIndex];
+    array[secondIndex] = element;
+    swapCount++;
+  }
+
+  private static void resetCounters() {
+    iterationCount = 0;
+    swapCount = 0;
+  }
+
+  public static int getIterationCount() {
+    return iterationCount;
+  }
+
+  public static int getSwapCount() {
+    return swapCount;
   }
 
   public static <T extends Comparable<? super T>> void bubbleSort(T[] array) {
@@ -141,7 +159,7 @@ public class Algorithms {
     return null;
   }
 
-  public static void runAlgorithmMethod(Method method, Comparable[] array) {
+  public static <T extends Comparable<? super T>> void runAlgorithmMethod(Method method, T[] array) {
     try {
       method.invoke(null, new Object[]{array});
     } catch (IllegalAccessException e) {
