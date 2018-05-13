@@ -79,16 +79,26 @@ public class Algorithms {
       return;
     }
 
+    resetCounters();
+
     for (int i = 1; i < array.length; i++) {
       for (int j = i; j > 0; j--) {
         if (array[j].compareTo(array[j-1]) < 0) {
           swap(array, j, j-1);
         }
+
+        iterationCount++;
       }
     }
   }
 
   public static <T extends Comparable<? super T>> void mergeSort(T[] array) {
+    if (array.length <= 1) {
+      return;
+    }
+
+    resetCounters();
+
     @SuppressWarnings("unchecked")
     T[] sortedArray = (T[]) new Comparable[array.length];
 
@@ -125,6 +135,8 @@ public class Algorithms {
       } else if (leftIndex > middleIndex && rightIndex <= highIndex) {
         sortedArray[i] = array[rightIndex++];
       }
+
+      iterationCount++;
     }
 
     for (int i = lowIndex; i <= highIndex; i++) {
@@ -137,6 +149,8 @@ public class Algorithms {
       return;
     }
 
+    resetCounters();
+
     for (int i = 0; i < array.length - 1; i++) {
       int lowest = i;
 
@@ -144,6 +158,8 @@ public class Algorithms {
         if (array[j].compareTo(array[lowest]) < 0) {
           lowest = j;
         }
+
+        iterationCount++;
       }
 
       if (lowest != i) {
@@ -157,6 +173,8 @@ public class Algorithms {
       return;
     }
 
+    resetCounters();
+
     for (int i = 0; i < shellSortGaps.length; i++) {
       int gap = shellSortGaps[i];
 
@@ -166,6 +184,7 @@ public class Algorithms {
 
           for (k = j; k >= gap && array[k-gap].compareTo(element) > 0; k -= gap) {
             array[k] = array[k-gap];
+            iterationCount++;
           }
 
           array[k] = element;
