@@ -1,7 +1,10 @@
 
 public class Main {
   public static void main(String[] args) throws Exception {
-    // Algorithms.testAlgorithm("bubbleSort", false);
+    // Algorithms algorithms = new Algorithms();
+    // algorithms.testAlgorithm("shellSort", false);
+    // System.out.println("Iterations: " + algorithms.getIterationCount());
+    // System.out.println("Swaps: " + algorithms.getSwapCount());
 
     PerformanceAnalyser analyser = new PerformanceAnalyser();
 
@@ -11,7 +14,7 @@ public class Main {
     System.out.format("Analysing performance of all algorithms, running 10 tests " +
                       "each with a randomised integer array of size 10000 ...\n");
 
-    String[] algorithms = {"bubbleSort", "insertionSort", "selectionSort", "shellSort"};
+    String[] algorithms = {"bubbleSort", "insertionSort", "mergeSort", "selectionSort", "shellSort"};
     long[] averageExecutionTimes = analyser.runAnalysis(algorithms, 10, 10000);
 
     System.out.println("Analysis complete, average execution times:");

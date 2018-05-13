@@ -4,25 +4,21 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class Algorithms {
-  private static ArrayList<Method> algorithmMethods;
-  private static int iterationCount;
-  private static int swapCount;
-  private static int[] shellSortGaps;
+  private final ArrayList<Method> algorithmMethods;
+  private final int[] shellSortGaps;
+  private int iterationCount;
+  private int swapCount;
 
-  private Algorithms() {}
-
-  static {
+  public Algorithms() {
     resetCounters();
-
     algorithmMethods = new ArrayList<>();
+    shellSortGaps = new int[31];
 
     for (Method method : Algorithms.class.getMethods()) {
       if (method.getName().endsWith("Sort")) {
         algorithmMethods.add(method);
       }
     }
-
-    shellSortGaps = new int[31];
 
     for (int i = 0; i < shellSortGaps.length; i++) {
       shellSortGaps[i] = (int) Math.pow(2, shellSortGaps.length - i) - 1;
@@ -32,27 +28,27 @@ public class Algorithms {
     shellSortGaps[0] += 1;
   }
 
-  private static <T> void swap(T[] array, int firstIndex, int secondIndex) {
+  private <T> void swap(T[] array, int firstIndex, int secondIndex) {
     T element = array[firstIndex];
     array[firstIndex] = array[secondIndex];
     array[secondIndex] = element;
     swapCount++;
   }
 
-  private static void resetCounters() {
+  private void resetCounters() {
     iterationCount = 0;
     swapCount = 0;
   }
 
-  public static int getIterationCount() {
+  public int getIterationCount() {
     return iterationCount;
   }
 
-  public static int getSwapCount() {
+  public int getSwapCount() {
     return swapCount;
   }
 
-  public static <T extends Comparable<? super T>> void bubbleSort(T[] array) {
+  public <T extends Comparable<? super T>> void bubbleSort(T[] array) {
     if (array.length <= 1) {
       return;
     }
@@ -74,7 +70,7 @@ public class Algorithms {
     }
   }
 
-  public static <T extends Comparable<? super T>> void insertionSort(T[] array) {
+  public <T extends Comparable<? super T>> void insertionSort(T[] array) {
     if (array.length <= 1) {
       return;
     }
@@ -92,7 +88,7 @@ public class Algorithms {
     }
   }
 
-  public static <T extends Comparable<? super T>> void mergeSort(T[] array) {
+  public <T extends Comparable<? super T>> void mergeSort(T[] array) {
     if (array.length <= 1) {
       return;
     }
@@ -105,7 +101,7 @@ public class Algorithms {
     mergeSort(array, sortedArray, 0, array.length-1);
   }
 
-  private static <T extends Comparable<? super T>> void mergeSort(T[] array, T[] sortedArray,
+  private <T extends Comparable<? super T>> void mergeSort(T[] array, T[] sortedArray,
                                                                   int lowIndex, int highIndex) {
     if (lowIndex >= highIndex) {
       return;
@@ -118,7 +114,7 @@ public class Algorithms {
     merge(array, sortedArray, lowIndex, middleIndex, highIndex);
   }
 
-  private static <T extends Comparable<? super T>> void merge(T[] array, T[] sortedArray,
+  private <T extends Comparable<? super T>> void merge(T[] array, T[] sortedArray,
                                                               int lowIndex, int middleIndex, int highIndex) {
     int leftIndex = lowIndex;
     int rightIndex = middleIndex + 1;
@@ -144,7 +140,7 @@ public class Algorithms {
     }
   }
 
-  public static <T extends Comparable<? super T>> void selectionSort(T[] array) {
+  public <T extends Comparable<? super T>> void selectionSort(T[] array) {
     if (array.length <= 1) {
       return;
     }
@@ -168,7 +164,7 @@ public class Algorithms {
     }
   }
 
-  public static <T extends Comparable<? super T>> void shellSort(T[] array) {
+  public <T extends Comparable<? super T>> void shellSort(T[] array) {
     if (array.length <= 1) {
       return;
     }
@@ -193,7 +189,7 @@ public class Algorithms {
     }
   }
 
-  public static void testAlgorithm(String algorithm, boolean isReverse) {
+  public void testAlgorithm(String algorithm, boolean isReverse) {
     Method algorithmMethod = getAlgorithmMethod(algorithm);
 
     if (algorithmMethod == null) {
@@ -220,7 +216,7 @@ public class Algorithms {
     System.out.println("After:  " + ArrayUtilities.toString(array));
   }
 
-  public static Method getAlgorithmMethod(String algorithm) {
+  public Method getAlgorithmMethod(String algorithm) {
     for (Method method : algorithmMethods) {
       if (method.getName().equals(algorithm)) {
         return method;
@@ -230,9 +226,9 @@ public class Algorithms {
     return null;
   }
 
-  public static <T extends Comparable<? super T>> void runAlgorithmMethod(Method method, T[] array) {
+  public <T extends Comparable<? super T>> void runAlgorithmMethod(Method method, T[] array) {
     try {
-      method.invoke(null, new Object[]{array});
+      method.invoke(this, new Object[]{array});
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     } catch (InvocationTargetException e) {

@@ -3,14 +3,16 @@ import java.lang.management.ThreadMXBean;
 import java.lang.reflect.Method;
 
 public class PerformanceAnalyser {
+  private Algorithms algorithms;
   private ThreadMXBean thread;
 
   public PerformanceAnalyser() {
+    algorithms = new Algorithms();
     thread = ManagementFactory.getThreadMXBean();
   }
 
   public long runAnalysis(String algorithm, int testRepeatCount,  int arraySize) {
-    Method algorithmMethod = Algorithms.getAlgorithmMethod(algorithm);
+    Method algorithmMethod = algorithms.getAlgorithmMethod(algorithm);
 
     if (algorithmMethod == null) {
       return -1;
@@ -26,7 +28,7 @@ public class PerformanceAnalyser {
       Integer[] array = ArrayUtilities.generateRandomIntegerArray(arraySize, 0, arraySize);
 
       startTime = thread.getCurrentThreadCpuTime();
-      Algorithms.runAlgorithmMethod(algorithmMethod, array);
+      algorithms.runAlgorithmMethod(algorithmMethod, array);
       endTime = thread.getCurrentThreadCpuTime() - startTime;
       averageExecutionTime += (endTime - averageExecutionTime) / (long) i;
     }
