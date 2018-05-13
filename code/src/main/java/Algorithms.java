@@ -181,39 +181,13 @@ public class Algorithms {
           for (k = j; k >= gap && array[k-gap].compareTo(element) > 0; k -= gap) {
             array[k] = array[k-gap];
             iterationCount++;
+            swapCount++;
           }
 
           array[k] = element;
         }
       }
     }
-  }
-
-  public void testAlgorithm(String algorithm, boolean isReverse) {
-    Method algorithmMethod = getAlgorithmMethod(algorithm);
-
-    if (algorithmMethod == null) {
-      System.out.format("Unsupported algorithm: \"%s\"\n", algorithm);
-      return;
-    }
-
-    Integer[] array;
-    int size = 20;
-
-    if (isReverse) {
-      array = ArrayUtilities.generateReverseIntegerArray(size);
-    } else {
-      array = ArrayUtilities.generateRandomIntegerArray(size, 0, size);
-    }
-
-    System.out.format("Testing algorithm \"%s\" with %s array of size %d\n",
-                      algorithm, isReverse ? "reversed" : "randomized", size);
-
-    System.out.println("Before: " + ArrayUtilities.toString(array));
-
-    runAlgorithmMethod(algorithmMethod, array);
-
-    System.out.println("After:  " + ArrayUtilities.toString(array));
   }
 
   public Method getAlgorithmMethod(String algorithm) {

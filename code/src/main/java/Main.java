@@ -1,10 +1,40 @@
+import java.lang.reflect.Method;
 
 public class Main {
+  public static void testAlgorithm(String algorithm, int arraySize, boolean isReverse) {
+    Algorithms algorithms = new Algorithms();
+
+    Method algorithmMethod = algorithms.getAlgorithmMethod(algorithm);
+
+    if (algorithmMethod == null) {
+      System.out.format("Unsupported algorithm: \"%s\"\n", algorithm);
+      return;
+    } else if (arraySize < 2) {
+      System.out.println("Array size must be at least 2");
+    }
+
+    Integer[] array;
+
+    if (isReverse) {
+      array = ArrayUtilities.generateReverseIntegerArray(arraySize);
+    } else {
+      array = ArrayUtilities.generateRandomIntegerArray(arraySize, 0, arraySize);
+    }
+
+    System.out.format("Testing algorithm \"%s\" with %s array of size %d\n",
+                      algorithm, isReverse ? "reversed" : "randomized", arraySize);
+
+    System.out.println("Before: " + ArrayUtilities.toString(array));
+
+    algorithms.runAlgorithmMethod(algorithmMethod, array);
+
+    System.out.println("After:  " + ArrayUtilities.toString(array));
+    System.out.println("Iterations: " + algorithms.getIterationCount());
+    System.out.println("Swaps: " + algorithms.getSwapCount());
+  }
+
   public static void main(String[] args) throws Exception {
-    // Algorithms algorithms = new Algorithms();
-    // algorithms.testAlgorithm("shellSort", false);
-    // System.out.println("Iterations: " + algorithms.getIterationCount());
-    // System.out.println("Swaps: " + algorithms.getSwapCount());
+    // testAlgorithm("shellSort", 1000, false);
 
     PerformanceAnalyser analyser = new PerformanceAnalyser();
 
