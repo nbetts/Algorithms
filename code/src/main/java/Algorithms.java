@@ -88,6 +88,50 @@ public class Algorithms {
     }
   }
 
+  public static <T extends Comparable<? super T>> void mergeSort(T[] array) {
+    @SuppressWarnings("unchecked")
+    T[] sortedArray = (T[]) new Comparable[array.length];
+
+    mergeSort(array, sortedArray, 0, array.length-1);
+  }
+
+  private static <T extends Comparable<? super T>> void mergeSort(T[] array, T[] sortedArray,
+                                                                  int lowIndex, int highIndex) {
+    if (lowIndex >= highIndex) {
+      return;
+    }
+
+    int middleIndex = (lowIndex + highIndex) / 2;
+
+    mergeSort(array, sortedArray, lowIndex, middleIndex);
+    mergeSort(array, sortedArray, middleIndex + 1, highIndex);
+    merge(array, sortedArray, lowIndex, middleIndex, highIndex);
+  }
+
+  private static <T extends Comparable<? super T>> void merge(T[] array, T[] sortedArray,
+                                                              int lowIndex, int middleIndex, int highIndex) {
+    int leftIndex = lowIndex;
+    int rightIndex = middleIndex + 1;
+
+    for (int i = lowIndex; i <= highIndex; i++) {
+      if (leftIndex <= middleIndex && rightIndex <= highIndex) {
+        if (array[leftIndex].compareTo(array[rightIndex]) > 0) {
+          sortedArray[i] = array[rightIndex++];
+        } else {
+          sortedArray[i] = array[leftIndex++];
+        }
+      } else if (leftIndex <= middleIndex && rightIndex > highIndex) {
+        sortedArray[i] = array[leftIndex++];
+      } else if (leftIndex > middleIndex && rightIndex <= highIndex) {
+        sortedArray[i] = array[rightIndex++];
+      }
+    }
+
+    for (int i = lowIndex; i <= highIndex; i++) {
+      array[i] = sortedArray[i];
+    }
+  }
+
   public static <T extends Comparable<? super T>> void selectionSort(T[] array) {
     if (array.length <= 1) {
       return;
