@@ -33,14 +33,9 @@ public class Main {
   }
 
   public static void testPerformance(String algorithm, int arraySize) {
-    Algorithms algorithms = new Algorithms();
-    Method algorithmMethod = algorithms.getAlgorithmMethod(algorithm);
-
-    if (algorithmMethod == null) {
-      System.out.format("Unsupported algorithm: \"%s\"\n", algorithm);
-      return;
-    } else if (arraySize < 2) {
+    if (arraySize < 2) {
       System.out.println("Array size must be at least 2");
+      return;
     }
 
     PerformanceAnalyser analyser = new PerformanceAnalyser();
@@ -62,8 +57,44 @@ public class Main {
     System.out.println("Average swap count: " + performanceResult.getAverageSwapCount());
   }
 
+  public static void testPerformance(String[] algorithms, int arraySize) {
+    if (arraySize < 2) {
+      System.out.println("Array size must be at least 2");
+      return;
+    }
+
+    PerformanceAnalyser analyser = new PerformanceAnalyser();
+
+    System.out.println("Testing performance of the following algorithms, running 10 tests " +
+                      "each with a randomised integer array of size " + arraySize);
+
+    for (int i = 0; i < algorithms.length; i++) {
+      System.out.format("%d: %s\n", i+1, algorithms[i]);
+    }
+
+    System.out.println("Warming up performance analyser...");
+    analyser.warmUp();
+
+    System.out.println("Running analysis...");
+
+    PerformanceResult[] performanceResults = analyser.runAnalysis(algorithms, 10, arraySize);
+
+    System.out.println("Analysis complete, average performance results:");
+    System.out.println("Algorithm\tExecution time\tIteration count\tSwap count");
+
+    for (int i = 0; i < algorithms.length; i++) {
+      System.out.format("%s\t%s\t\t%d\t\t%d\n", algorithms[i],
+                        PerformanceAnalyser.formatNanoTime(performanceResults[i].getAverageExecutionTime(), 4),
+                        performanceResults[i].getAverageIterationCount(),
+                        performanceResults[i].getAverageSwapCount());
+    }
+  }
+
   public static void main(String[] args) {
-    // testAlgorithm("shellSort", 20, false);
-    testPerformance("shellSort", 20000);
+    // testAlgorithm("selectionSort", 20, false);
+    // testPerformance("shellSort", 20000);
+
+    String[] algorithms = {"bubbleSort", "insertionSort", "mergeSort", "selectionSort", "shellSort"};
+    testPerformance(algorithms, 20000);
   }
 }
