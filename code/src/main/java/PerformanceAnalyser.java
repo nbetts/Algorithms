@@ -56,7 +56,11 @@ public class PerformanceAnalyser {
     runAnalysis("bubbleSort", 2, 20000);
   }
 
-  public static String formatNanoTime(long nanoTime) {
-    return String.format("%.3fs", (double) nanoTime / 1000000000.0);
+  public static String formatNanoTime(long nanoTime, int significantFigures) {
+    if (significantFigures < 1) {
+      significantFigures = 1;
+    }
+
+    return String.format("%." + significantFigures + "fs", (double) nanoTime / 1000000000.0);
   }
 }

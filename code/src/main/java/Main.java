@@ -16,7 +16,7 @@ public class Main {
 
     PerformanceResult result = analyser.runAnalysis("bubbleSort", 10, 200);
 
-    System.out.println("averageExecutionTime: " + PerformanceAnalyser.formatNanoTime(result.averageExecutionTime));
+    System.out.println("averageExecutionTime: " + PerformanceAnalyser.formatNanoTime(result.averageExecutionTime, 5));
     System.out.println("averageIterationCount: " + result.averageIterationCount);
     System.out.println("averageSwapCount: " + result.averageSwapCount);
   }
