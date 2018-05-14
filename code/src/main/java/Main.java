@@ -91,10 +91,11 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    // testAlgorithm("selectionSort", 20, false);
+    // testAlgorithm("improvedBubbleSort", 20, false);
     // testPerformance("shellSort", 20000);
 
-    String[] algorithms = {"bubbleSort", "insertionSort", "mergeSort", "selectionSort", "shellSort"};
+    // String[] algorithms = {"bubbleSort", "insertionSort", "mergeSort", "selectionSort", "shellSort"};
+    String[] algorithms = {"bubbleSort", "improvedBubbleSort"};
     testPerformance(algorithms, 20000);
   }
 }

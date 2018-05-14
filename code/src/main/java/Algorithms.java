@@ -70,6 +70,31 @@ public class Algorithms {
     }
   }
 
+  public <T extends Comparable<? super T>> void improvedBubbleSort(T[] array) {
+    if (array.length <= 1) {
+      return;
+    }
+
+    resetCounters();
+    int indexLimit = array.length;
+    int newIndexLimit;
+
+    while (indexLimit > 0) {
+      newIndexLimit = 0;
+
+      for (int i = 0; i < indexLimit - 1; i++) {
+        if (array[i].compareTo(array[i+1]) > 0) {
+          swap(array, i, i+1);
+          newIndexLimit = i;
+        }
+
+        iterationCount++;
+      }
+
+      indexLimit = newIndexLimit;
+    }
+  }
+
   public <T extends Comparable<? super T>> void insertionSort(T[] array) {
     if (array.length <= 1) {
       return;
